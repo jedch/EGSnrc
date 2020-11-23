@@ -435,15 +435,15 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>resetErrorFlag
 <ul>
 <li>Geometries in a stack should not overlap. This way there is no need for a priority and all related checks.</li>
 <li>A particle outside of a geometry stack can only enter the stack from the first or last geometry in the list of geometries.</li>
-<li>When a particle exits the <img class="formulaInl" alt="$j$" src="form_11.png"/>'th geometry in a stack, it can only enter the <img class="formulaInl" alt="$j+1$" src="form_199.png"/>'st or <img class="formulaInl" alt="$j-1$" src="form_200.png"/>'st geometry.</li>
+<li>When a particle exits the <img class="formulaInl" alt="$j$" src="form_11.png"/>'th geometry in a stack, it can only enter the <img class="formulaInl" alt="$j+1$" src="form_200.png"/>'st or <img class="formulaInl" alt="$j-1$" src="form_201.png"/>'st geometry.</li>
 </ul>
 <p>Due to these limitations, a geometry stack is less general and therefore presumably less useful than a geometry union. However, if the geometry under consideration is such that it can be represented as a stack of geometries, the simulation may be substantially more efficient compared to a union, particularly when there are many geometries in the stack. A typical example of a geometry stack is the geometry package of the BEAMnrc code, which is built from "component modules" (corresponding to the geometry objects in this implementation), put together one after the other. The <a class="el" href="classEGS__StackGeometry.html" title="A stack of geometries. ">EGS_StackGeometry</a> class is of course much more versatile than the BEAMnrc geometry as it permits to have an arbitrary number of geometries of arbitrary type, dynamically determined at run time from the user input, instead of a fixed set of component modules determined when the BEAMnrc accelerator is built and compiled.</p>
 <p>A geometry stack is defined in the input file using the following keys: </p>
 <pre class="fragment">library = egs_gstack
 geometries = list of names of previously defined geometries
 tolerance = small floating number
-</pre><p> The tolerance key defines a small floating point number <img class="formulaInl" alt="$boundaryTolerance$" src="form_201.png"/>. Each time a particle exits a geometry, its position is moved by <img class="formulaInl" alt="$boundaryTolerance$" src="form_201.png"/> along its direction of motion. This is needed to avoid numericall roundoff problems that may result in the particle not having entered the next geometry in the stack and therefore being discarded.</p>
-<p>The <img class="formulaInl" alt="$tolerance$" src="form_202.png"/> key duplicates the functionality of the <img class="formulaInl" alt="$boundary tolerance$" src="form_203.png"/> key for backwards compatibility.</p>
+</pre><p> The tolerance key defines a small floating point number <img class="formulaInl" alt="$boundaryTolerance$" src="form_202.png"/>. Each time a particle exits a geometry, its position is moved by <img class="formulaInl" alt="$boundaryTolerance$" src="form_202.png"/> along its direction of motion. This is needed to avoid numericall roundoff problems that may result in the particle not having entered the next geometry in the stack and therefore being discarded.</p>
+<p>The <img class="formulaInl" alt="$tolerance$" src="form_203.png"/> key duplicates the functionality of the <img class="formulaInl" alt="$boundary tolerance$" src="form_204.png"/> key for backwards compatibility.</p>
 <p>A simple example: </p>
 <pre class="fragment">:start geometry definition:
 

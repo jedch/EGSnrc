@@ -115,7 +115,6 @@ int EGS_Application::userScoring(int iarg, int ir) {
             }
             else {
                 res = a_objects[iarg][j]->processEvent((AusgabCall)iarg);
-                egsInformation("ir res %d %d\n",ir,res);
             }
             if (res < 0) {
                 return res;
@@ -871,9 +870,7 @@ int EGS_Application::simulateSingleShower() {
     if (err) {
         return err;
     }
-    egsInformation("about to enter shower\n");
     err = shower();
-    egsInformation("finished shower\n");
     if (err) {
         return err;
     }

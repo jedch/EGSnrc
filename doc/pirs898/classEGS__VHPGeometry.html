@@ -482,13 +482,13 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>resetErrorFlag
 <li>first and last row (16 bit usigned integers)</li>
 <li>followed by the last-first+1 data for a row The data for a row consists of</li>
 <li>number <code>nreg</code> of regions (16 bit usigned integer)</li>
-<li>followed by <code>nreg+1</code> pixel indeces <img class="formulaInl" alt="$p_j$" src="form_254.png"/> (16 bit usigned integers)</li>
-<li>followed by <code>nreg</code> organ indeces <img class="formulaInl" alt="$O_j$" src="form_255.png"/> (8 bit unsigned integers) so that all voxels between <img class="formulaInl" alt="$p_j$" src="form_254.png"/> and <img class="formulaInl" alt="$p_{j+1}$" src="form_256.png"/> are set to organ <img class="formulaInl" alt="$O_j$" src="form_255.png"/>. This data structure, also used at run time, provides a significant compression compared to simply using an array of organ indeces (e.g., one needs about 12 MB to represent Richard Kramer's FAX phantom compared to about 150 MB that would be needed for the 1361 x 474 x 224 voxels of this phantom). Its disadvantage is the slighly slower ( <img class="formulaInl" alt="$\sim$" src="form_257.png"/> 10-15%) access to the organ index of a voxel.</li>
+<li>followed by <code>nreg+1</code> pixel indeces <img class="formulaInl" alt="$p_j$" src="form_263.png"/> (16 bit usigned integers)</li>
+<li>followed by <code>nreg</code> organ indeces <img class="formulaInl" alt="$O_j$" src="form_264.png"/> (8 bit unsigned integers) so that all voxels between <img class="formulaInl" alt="$p_j$" src="form_263.png"/> and <img class="formulaInl" alt="$p_{j+1}$" src="form_265.png"/> are set to organ <img class="formulaInl" alt="$O_j$" src="form_264.png"/>. This data structure, also used at run time, provides a significant compression compared to simply using an array of organ indeces (e.g., one needs about 12 MB to represent Richard Kramer's FAX phantom compared to about 150 MB that would be needed for the 1361 x 474 x 224 voxels of this phantom). Its disadvantage is the slighly slower ( <img class="formulaInl" alt="$\sim$" src="form_266.png"/> 10-15%) access to the organ index of a voxel.</li>
 </ul>
 <p>The file <code>media_data_file</code> is an ASCII file that defines the organ names and the materials to be used for each organ. Its format is as follows:</p>
 <ul>
-<li>number <img class="formulaInl" alt="$N$" src="form_137.png"/> of different organs</li>
-<li>followed by <img class="formulaInl" alt="$N$" src="form_137.png"/> lines consisting of organ index, medium index and organ name.</li>
+<li>number <img class="formulaInl" alt="$N$" src="form_120.png"/> of different organs</li>
+<li>followed by <img class="formulaInl" alt="$N$" src="form_120.png"/> lines consisting of organ index, medium index and organ name.</li>
 <li>followed by number of media <code>nmed</code></li>
 <li>followed by <code>nmed</code> lines with a single medium name per line (media names are the actual medium names in the PEGS file to be used for the simulation).</li>
 </ul>
@@ -499,11 +499,11 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>resetErrorFlag
 * micro matrix = micro_data_file1 organ1 organ2 ...
 * micro matrix = micro_data_file2 organ1 organ2 ...
 * ...
-* </pre><p> The <code>TB medium</code> and <code>BM medium</code> inputs define the PEGS medium names of trabecular bone and bone marrow. The <code>BSC thickness</code> sets the thickness of the bone surface cells (BSC) layer. Note that in the current implementation the BSC thickness can not exceed the micro-voxel size. The binary files <code>micro_data_file_i</code> define micro matrix clusters to replace macro voxels that have organ indeces <code>organ1 organ2 ...</code>. A micro matrix cluster consists of <img class="formulaInl" alt="$M_x \times M_y \times M_z$" src="form_258.png"/> micro matrices of dimension <img class="formulaInl" alt="$N_x \times N_y \times N_z$" src="form_234.png"/>. This cluster is repeated periodically in spongiosa organs set to use this cluster. Note that the micro-matrix voxel size is automatically determned from the macro voxel size and the number of micro-voxels in a micro matrix. The format of the micro matrix file is as follows:</p>
+* </pre><p> The <code>TB medium</code> and <code>BM medium</code> inputs define the PEGS medium names of trabecular bone and bone marrow. The <code>BSC thickness</code> sets the thickness of the bone surface cells (BSC) layer. Note that in the current implementation the BSC thickness can not exceed the micro-voxel size. The binary files <code>micro_data_file_i</code> define micro matrix clusters to replace macro voxels that have organ indeces <code>organ1 organ2 ...</code>. A micro matrix cluster consists of <img class="formulaInl" alt="$M_x \times M_y \times M_z$" src="form_267.png"/> micro matrices of dimension <img class="formulaInl" alt="$N_x \times N_y \times N_z$" src="form_243.png"/>. This cluster is repeated periodically in spongiosa organs set to use this cluster. Note that the micro-matrix voxel size is automatically determned from the macro voxel size and the number of micro-voxels in a micro matrix. The format of the micro matrix file is as follows:</p>
 <ul>
-<li><img class="formulaInl" alt="$M_x, M_y, M_z$" src="form_259.png"/> (8 bit unsigned integers)</li>
-<li>followed by <img class="formulaInl" alt="$N_x, N_y, N_z$" src="form_260.png"/> (8 bit unsigned integers)</li>
-<li>followed by <img class="formulaInl" alt="$M_x \times M_y \times M_z \times N_x \times N_y \times N_z$" src="form_261.png"/> 8 bit integers defining the micro matrix medium (0 corresponds to trabecular bone, 1 to bone marrow). Note that bone marrow voxels neighboring trabecular bone are automatically marked to contain a BSC sub-volume. </li>
+<li><img class="formulaInl" alt="$M_x, M_y, M_z$" src="form_268.png"/> (8 bit unsigned integers)</li>
+<li>followed by <img class="formulaInl" alt="$N_x, N_y, N_z$" src="form_269.png"/> (8 bit unsigned integers)</li>
+<li>followed by <img class="formulaInl" alt="$M_x \times M_y \times M_z \times N_x \times N_y \times N_z$" src="form_270.png"/> 8 bit integers defining the micro matrix medium (0 corresponds to trabecular bone, 1 to bone marrow). Note that bone marrow voxels neighboring trabecular bone are automatically marked to contain a BSC sub-volume. </li>
 </ul>
 
 <p>Definition at line <a class="el" href="egs__vhp__geometry_8h_source.html#l01303">1303</a> of file <a class="el" href="egs__vhp__geometry_8h_source.html">egs_vhp_geometry.h</a>.</p>

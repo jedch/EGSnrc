@@ -92,7 +92,7 @@
 <li>
 <a class="el" href="cavity.html#cavity_intro">Introduction</a>  </li>
 <li>
-<a class="el" href="common.html#common_intro">Introduction</a>  </li>
+<a class="el" href="common.html#common_intro">Common inputs</a>  </li>
 <li>
 <a class="el" href="cavity.html#cavity_options">Scoring options</a>  <ul>
 <li>
@@ -124,27 +124,6 @@ Introduction</h1>
 <li>Calculation of the <img class="formulaInl" alt="$A_{\rm pn}$" src="form_19.png"/> correction factor. This correction factor can be obtained as the ratio of the doses to the cavity from a point source and from a parallel beam, which can be calculated by performing two separate calculations. Experience with CAVRZnrc shows that the gain in efficency when calculating <img class="formulaInl" alt="$A_{\rm pn}$" src="form_19.png"/> within a single CAVRZnrc run is negligible compared to two separate runs. Considering that the calculation of <img class="formulaInl" alt="$A_{\rm pn}$" src="form_19.png"/> introduces a great deal of complications in the logic of the code, it was deemed better to not implement this option into <code>cavity</code>.</li>
 </ul>
 <p>Unlike CAVRZnrc, <code>cavity</code> is not restricted to cylindrically symmetric geometries. Practically <b>any</b> chamber can be modeled with this application by using the extensive capabilities of the general purpose <a class="el" href="group__Geometry.html">geometry package</a>. In addition to the above mentioned functionality, <code>cavity</code> has been extended to allow the calculation of free air chamber (FAC) correction factors and half value layers (HVL). These calculation types are explained in detail in sections <a class="el" href="cavity.html#cavity_fac">FAC correction factors</a> and <a class="el" href="cavity.html#cavity_hvl">HVL calculations</a>. Variance reduction techniques, which are available in CAVRZnrc but are not particularly useful for cavity dose calculations are also not implemented (see <a class="el" href="cavity.html#cavity_vr">Variance reduction techniques</a> for more details).</p>
-<h1><a class="anchor" id="cavity_geom_source_rco"></a>
-Geometry, particle source and run control</h1>
-<p>Geometry and particle source are specified in an input file as explained in the <a class="el" href="group__Geometry.html">geometry module </a> and the <a class="el" href="group__Sources.html">particle sources module</a>. Run control is specified in a section of the input file delimited by </p>
-<pre class="fragment">:start run control:
-:stop run control:
-</pre><p>A <a class="el" href="classEGS__RunControl.html">simple </a> run control object (RCO) is used to control a single run. A simple RCO understands the following inputs </p>
-<pre class="fragment">ncase                       = number of histories to run
-nbatch                      = number of batches to use (default is 10)
-statistical accuracy sought = required uncertainty in %
-max cpu hours allowed       = max. CPU time allowed
-calculation                 = first or restart or combine or analyze
-</pre><p> The only required input is the number of histories. The <b>nbatch</b> input determines how many times the simulation will report its progress (and not, as one might expect, the number of statistical batches as <code>egs_fac</code> uses history-by-history statistical analysis). With the <b><code> statistical accuracy sought </code></b> input one can make the calculation terminate when the specified uncertainty is reached for the cavity dose. Note, however, that after <b><code>ncase</b></code> histories the simulation does not continue <em>until</em> this uncertainty is obtained. With the <b><code>max cpu hours allowed</code></b> input one can limit the simulation time to some maximum time in hours. With the <b><code>calculation</b></code> input one determines the type of simulation:</p>
-<ul>
-<li><b> <code>first</b></code> means a fresh simulation (the default)</li>
-<li>with <b> <code>restart</b></code> one can restart a previously performed simulation</li>
-<li>with <b><code>combine</b></code> one can combine the results of parallel runs. This is needed when one or more of the parallel jobs has not finished so that the results are not automatically combined or when one uses a simple RCO for parallel runs (see below).</li>
-<li>the <b><code>analyze</b></code> option is used to read the simulation data from the <b><code></code>.egsdat</b> file and output the results to the standard output.</li>
-</ul>
-<p>A <a class="el" href="classEGS__JCFControl.html">"job-control-file" (JCF) </a> RCO is used by default for parallel runs. A JCF RCO understands in addition to the above the optional input </p>
-<pre class="fragment">nchunk = number of simulation chunks (default is 10)
-</pre><p> In parallel runs the simulation is split into <b><code> nchunk*n_parallel</code></b> portions and each parallel job simulates one portion at a time until no histories are left. Note that a functioning file locking functionality is needed on the system in order to use a JCF-RCO. As some users have reported problems with file locking, one can force the use of a simple RCO by specifying <b><code>-s</code></b> on the command line. In this case, all parallel jobs will execute the same number of histories as specified in the input file.</p>
 <h1><a class="anchor" id="cavity_options"></a>
 Scoring options</h1>
 <p>This input block offers many possible options to the user. An example of such an input is shown below:</p>

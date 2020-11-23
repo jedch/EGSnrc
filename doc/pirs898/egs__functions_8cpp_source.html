@@ -300,148 +300,221 @@
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">return</span> result;</div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;}</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
-<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="group__egspp__main.html#gaf423b31abed9cd8dc92a5668a56935ab">  208</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__egspp__main.html#gaf423b31abed9cd8dc92a5668a56935ab">egsStripPath</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;aname) {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordtype">int</span> j;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordflow">for</span> (j=aname.size()-1; j&gt;=0; j--) {</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keywordflow">if</span> (aname[j] == <span class="charliteral">&#39;/&#39;</span> || aname[j] == __egs_fs) {</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            j++;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        }</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    }</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordflow">if</span> (j &lt; 0) {</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="keywordflow">return</span> aname;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    }</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keywordtype">string</span> result;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordflow">if</span> (j &gt;= 0) {</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">while</span> (j &lt; aname.size()) {</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            result += aname[j++];</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        }</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    }</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;}</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="preprocessor">#ifdef WIN32</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    #include &lt;process.h&gt;</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    #include &lt;sys/types.h&gt;</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="preprocessor">    #include &lt;unistd.h&gt;</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga19337ca142f9fddc4f274158b52649a6">  235</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__egspp__main.html#ga19337ca142f9fddc4f274158b52649a6">egsHostName</a>() {</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="preprocessor">#ifdef WIN32</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="preprocessor"></span>    <span class="comment">// Windows has the gethostname() function but it only works after</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="comment">// calling WSAStartup and in addition we have to link against the</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="comment">// ws2_32 DLL. This is pretty stupid as we just want to get the host name =&gt;</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="comment">// we try to get the host name from environment variables.</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordtype">char</span> *var = getenv(<span class="stringliteral">&quot;COMPUTERNAME&quot;</span>);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordflow">if</span> (!var) {</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        var = getenv(<span class="stringliteral">&quot;HOSTNAME&quot;</span>);</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">if</span> (!var) {</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            var = getenv(<span class="stringliteral">&quot;HOST&quot;</span>);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        }</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    }</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keywordflow">if</span> (!var) {</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;unknown&quot;</span>;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    }</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keywordflow">return</span> var;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="preprocessor"></span>    <span class="keywordtype">char</span> buf[1024];</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordtype">int</span> err = gethostname(buf,1023);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keywordflow">if</span> (err) {</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;unknown&quot;</span>;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    }</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordflow">return</span> buf;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;</div>
-<div class="line"><a name="l00262"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga217f838d54db1ab1d1bf028b8060dced">  262</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__egspp__main.html#ga217f838d54db1ab1d1bf028b8060dced">egsGetPid</a>() {</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="preprocessor">#ifdef WIN32</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> _getpid();</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> getpid();</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
-<div class="line"><a name="l00270"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga93d32bad171fae0575c0ea56cbdd4290">  270</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__egspp__main.html#ga93d32bad171fae0575c0ea56cbdd4290">egsSimplifyCVSKey</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;key) {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keywordflow">if</span> (key.size() &lt; 2) {</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="keywordflow">return</span> key;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    }</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keywordtype">int</span> js;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keywordflow">for</span> (js=0; js&lt;key.size(); js++) <span class="keywordflow">if</span> (key[js] == <span class="charliteral">&#39;$&#39;</span>) {</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        }</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordflow">if</span> (js &gt;= key.size()) {</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <span class="keywordflow">return</span> key;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    }</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordtype">int</span> je;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordflow">for</span> (je=key.size()-1; je&gt;=0; je--) <span class="keywordflow">if</span> (key[je] == <span class="charliteral">&#39;$&#39;</span>) {</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        }</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <span class="keywordflow">if</span> (je &lt;= js) {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        <span class="keywordflow">return</span> key;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    }</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keywordtype">string</span> result;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j=js+1; j&lt;je; j++) {</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        result += key[j];</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="comment">/* Expand first environment variable found anywhere in string aname</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">   - Checks for Unix or Windows style environment variable</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">   - Expands environment variable in aname appending folder</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">     separator if missing</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment">   - Replaces backslashes with slashes</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">   - Checks for duplicate slashes in aname</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga63fd04e4564a563f2f099c3eae6426f5">  216</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__egspp__main.html#ga63fd04e4564a563f2f099c3eae6426f5">egsExpandPath</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;aname) {</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordtype">string</span> str = aname;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordtype">string</span> c   = <span class="stringliteral">&quot;%$&quot;</span>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="comment">// Check for FIRST environment variable anywhere in aname</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordtype">size_t</span> p1= str.npos;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordtype">int</span> i = 0;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keywordflow">while</span> (i &lt; c.size()) {</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        p1= str.find_first_of(c[i++]);</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">if</span> (p1 != str.npos) {</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        }</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    }</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordtype">string</span> fs = <span class="stringliteral">&quot;%/\\&quot;</span>;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    i = 0;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keywordtype">size_t</span> p2 = str.npos;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordflow">while</span> (p1 != str.npos &amp;&amp; i &lt; fs.size()) {</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        p2 = str.find_first_of(fs[i++],p1+1);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="keywordflow">if</span> (p2 != str.npos) {</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        }</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    }</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="comment">// Did we find an environment variable?</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keywordflow">if</span> (p1 != str.npos &amp;&amp; p2 != str.npos) {</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordtype">string</span> envvar = str.substr(p1+1, p2-(p1+1));</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="keywordtype">char</span>  *envval = getenv(envvar.c_str());</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="comment">// Check that env var is defined</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordtype">string</span> envloc = envval ? string(envval) : string();</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="keywordflow">if</span> (!envloc.empty()) {</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            <span class="comment">// Append missing separator</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <span class="keywordtype">size_t</span> last = envloc.find_last_of(<span class="stringliteral">&quot;/\\&quot;</span>);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            <span class="keywordflow">if</span> (last != envloc.size()-1) {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                <span class="keywordflow">if</span> (envloc[last] == __egs_fs) {</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    envloc.append(<span class="stringliteral">&quot;\\&quot;</span>);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                }</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                    envloc.append(<span class="stringliteral">&quot;/&quot;</span>);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                }</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            }</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            str.replace(p1, p2-p1+1,envloc);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        }</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            <span class="keywordflow">if</span> (str[p1] == <span class="charliteral">&#39;$&#39;</span>) {</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                <a class="code" href="group__egspp__main.html#gadf4109d942f372e48e1dea86c0ca62cb">egsWarning</a>(<span class="stringliteral">&quot;\n\n *** egs++ egsExpandPath: Undefined environment variable $%s \n\n&quot;</span>, envvar.c_str());</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            }</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                <a class="code" href="group__egspp__main.html#gadf4109d942f372e48e1dea86c0ca62cb">egsWarning</a>(<span class="stringliteral">&quot;\n\n *** egs++ egsExpandPath: Undefined environment variable %%%s%% \n\n&quot;</span>, envvar.c_str());</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            }</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    }</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="comment">// Replace back slashes with slashes</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="keywordtype">size_t</span> found = str.find(<span class="stringliteral">&quot;\\&quot;</span>);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordflow">while</span> (found != str.npos) {</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        str.replace(found,1,<span class="stringliteral">&quot;/&quot;</span>);</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        found = str.find(<span class="stringliteral">&quot;\\&quot;</span>);</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    }</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="comment">// Remove duplicated slashes</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    found = str.find(<span class="stringliteral">&quot;//&quot;</span>);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordflow">while</span> (found != str.npos) {</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        str.replace(found,2,<span class="stringliteral">&quot;/&quot;</span>);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        found = str.find(<span class="stringliteral">&quot;//&quot;</span>);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    }</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordflow">return</span> str;</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;}</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;</div>
+<div class="line"><a name="l00281"></a><span class="lineno"><a class="line" href="group__egspp__main.html#gaf423b31abed9cd8dc92a5668a56935ab">  281</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__egspp__main.html#gaf423b31abed9cd8dc92a5668a56935ab">egsStripPath</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;aname) {</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordtype">int</span> j;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordflow">for</span> (j=aname.size()-1; j&gt;=0; j--) {</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="keywordflow">if</span> (aname[j] == <span class="charliteral">&#39;/&#39;</span> || aname[j] == __egs_fs) {</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            j++;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        }</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    }</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordflow">if</span> (j &lt; 0) {</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="keywordflow">return</span> aname;</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    }</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;}</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
-<div class="line"><a name="l00295"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga2d633f9f88ad2a7a0cc2efd660885401">  295</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__egspp__main.html#ga2d633f9f88ad2a7a0cc2efd660885401">egsGetEndian</a>() {</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <span class="keywordtype">int</span> nl = 0x12345678;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *p = (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *)(&amp;nl);</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keywordflow">if</span> (p[0] == 0x12 &amp;&amp; p[1] == 0x34 &amp;&amp; p[2] == 0x56 &amp;&amp; p[3] == 0x78) {</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    }</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="keywordflow">if</span> (p[0] == 0x78 &amp;&amp; p[1] == 0x56 &amp;&amp; p[2] == 0x34 &amp;&amp; p[3] == 0x12) {</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    }</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;}</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
-<div class="line"><a name="l00307"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga5a3ed0d674b7aa53128d25b780a45a29">  307</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="group__egspp__main.html#ga5a3ed0d674b7aa53128d25b780a45a29">egsIsAbsolutePath</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;path) {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="preprocessor">#ifdef WIN32</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">if</span> (path.size() &lt; 2) {</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    }</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keywordflow">if</span> ((path[0] == <span class="charliteral">&#39;/&#39;</span> || path[0] == __egs_fs) &amp;&amp;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            (path[1] == <span class="charliteral">&#39;/&#39;</span> || path[1] == __egs_fs)) {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    }</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keywordflow">if</span> (path.size() &lt; 3) {</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    }</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keywordflow">if</span> (!isalpha(path[0])) {</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    }</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="keywordflow">if</span> (path[1] != <span class="charliteral">&#39;:&#39;</span>) {</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    }</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="keywordflow">if</span> (path[2] != <span class="charliteral">&#39;/&#39;</span> &amp;&amp; path[2] != __egs_fs) {</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    }</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> (path[0] == <span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="keywordtype">bool</span> egsEquivStr(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;a, <span class="keyword">const</span> <span class="keywordtype">string</span> &amp;b) {</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> sz = a.size();</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keywordflow">if</span> (b.size() != sz) {</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    }</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; sz; ++i)</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="keywordflow">if</span> (tolower(a[i]) != tolower(b[i])) {</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        }</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;}</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keywordtype">string</span> result;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordflow">if</span> (j &gt;= 0) {</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        <span class="keywordflow">while</span> (j &lt; aname.size()) {</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            result += aname[j++];</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        }</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    }</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;}</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="preprocessor">#ifdef WIN32</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    #include &lt;process.h&gt;</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    #include &lt;sys/types.h&gt;</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="preprocessor">    #include &lt;unistd.h&gt;</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00308"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga19337ca142f9fddc4f274158b52649a6">  308</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__egspp__main.html#ga19337ca142f9fddc4f274158b52649a6">egsHostName</a>() {</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="preprocessor">#ifdef WIN32</span></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="preprocessor"></span>    <span class="comment">// Windows has the gethostname() function but it only works after</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    <span class="comment">// calling WSAStartup and in addition we have to link against the</span></div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="comment">// ws2_32 DLL. This is pretty stupid as we just want to get the host name =&gt;</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <span class="comment">// we try to get the host name from environment variables.</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keywordtype">char</span> *var = getenv(<span class="stringliteral">&quot;COMPUTERNAME&quot;</span>);</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keywordflow">if</span> (!var) {</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        var = getenv(<span class="stringliteral">&quot;HOSTNAME&quot;</span>);</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keywordflow">if</span> (!var) {</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            var = getenv(<span class="stringliteral">&quot;HOST&quot;</span>);</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        }</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    }</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keywordflow">if</span> (!var) {</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;unknown&quot;</span>;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    }</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keywordflow">return</span> var;</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="preprocessor"></span>    <span class="keywordtype">char</span> buf[1024];</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="keywordtype">int</span> err = gethostname(buf,1023);</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="keywordflow">if</span> (err) {</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">return</span> <span class="stringliteral">&quot;unknown&quot;</span>;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    }</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="keywordflow">return</span> buf;</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="preprocessor"></span>}</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;</div>
+<div class="line"><a name="l00335"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga217f838d54db1ab1d1bf028b8060dced">  335</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__egspp__main.html#ga217f838d54db1ab1d1bf028b8060dced">egsGetPid</a>() {</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="preprocessor">#ifdef WIN32</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> _getpid();</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> getpid();</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="preprocessor"></span>}</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;</div>
+<div class="line"><a name="l00343"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga93d32bad171fae0575c0ea56cbdd4290">  343</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="group__egspp__main.html#ga93d32bad171fae0575c0ea56cbdd4290">egsSimplifyCVSKey</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;key) {</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="keywordflow">if</span> (key.size() &lt; 2) {</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="keywordflow">return</span> key;</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    }</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keywordtype">int</span> js;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="keywordflow">for</span> (js=0; js&lt;key.size(); js++) <span class="keywordflow">if</span> (key[js] == <span class="charliteral">&#39;$&#39;</span>) {</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        }</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    <span class="keywordflow">if</span> (js &gt;= key.size()) {</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="keywordflow">return</span> key;</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    }</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="keywordtype">int</span> je;</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="keywordflow">for</span> (je=key.size()-1; je&gt;=0; je--) <span class="keywordflow">if</span> (key[je] == <span class="charliteral">&#39;$&#39;</span>) {</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        }</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="keywordflow">if</span> (je &lt;= js) {</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        <span class="keywordflow">return</span> key;</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    }</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="keywordtype">string</span> result;</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j=js+1; j&lt;je; j++) {</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        result += key[j];</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    }</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;}</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;</div>
+<div class="line"><a name="l00368"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga2d633f9f88ad2a7a0cc2efd660885401">  368</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__egspp__main.html#ga2d633f9f88ad2a7a0cc2efd660885401">egsGetEndian</a>() {</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="keywordtype">int</span> nl = 0x12345678;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *p = (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> *)(&amp;nl);</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    <span class="keywordflow">if</span> (p[0] == 0x12 &amp;&amp; p[1] == 0x34 &amp;&amp; p[2] == 0x56 &amp;&amp; p[3] == 0x78) {</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    }</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keywordflow">if</span> (p[0] == 0x78 &amp;&amp; p[1] == 0x56 &amp;&amp; p[2] == 0x34 &amp;&amp; p[3] == 0x12) {</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    }</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;}</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;</div>
+<div class="line"><a name="l00380"></a><span class="lineno"><a class="line" href="group__egspp__main.html#ga5a3ed0d674b7aa53128d25b780a45a29">  380</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="group__egspp__main.html#ga5a3ed0d674b7aa53128d25b780a45a29">egsIsAbsolutePath</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;path) {</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="preprocessor">#ifdef WIN32</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">if</span> (path.size() &lt; 2) {</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    }</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="keywordflow">if</span> ((path[0] == <span class="charliteral">&#39;/&#39;</span> || path[0] == __egs_fs) &amp;&amp;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            (path[1] == <span class="charliteral">&#39;/&#39;</span> || path[1] == __egs_fs)) {</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    }</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">if</span> (path.size() &lt; 3) {</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    }</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    <span class="keywordflow">if</span> (!isalpha(path[0])) {</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    }</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    <span class="keywordflow">if</span> (path[1] != <span class="charliteral">&#39;:&#39;</span>) {</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    }</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    <span class="keywordflow">if</span> (path[2] != <span class="charliteral">&#39;/&#39;</span> &amp;&amp; path[2] != __egs_fs) {</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    }</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> (path[0] == <span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="preprocessor"></span>}</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="keywordtype">bool</span> egsEquivStr(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;a, <span class="keyword">const</span> <span class="keywordtype">string</span> &amp;b) {</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> sz = a.size();</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    <span class="keywordflow">if</span> (b.size() != sz) {</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    }</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; sz; ++i)</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;        <span class="keywordflow">if</span> (tolower(a[i]) != tolower(b[i])) {</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        }</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;}</div>
 <div class="ttc" id="egs__libconfig_8h_html_ad29043faadac119821ed848d412e2c00"><div class="ttname"><a href="egs__libconfig_8h.html#ad29043faadac119821ed848d412e2c00">EGS_EXPORT</a></div><div class="ttdeci">#define EGS_EXPORT</div><div class="ttdoc">Export symbols from the egspp library. </div><div class="ttdef"><b>Definition:</b> <a href="egs__libconfig_8h_source.html#l00090">egs_libconfig.h:90</a></div></div>
-<div class="ttc" id="group__egspp__main_html_gaf423b31abed9cd8dc92a5668a56935ab"><div class="ttname"><a href="group__egspp__main.html#gaf423b31abed9cd8dc92a5668a56935ab">egsStripPath</a></div><div class="ttdeci">string egsStripPath(const string &amp;aname)</div><div class="ttdoc">Strip the path from a file name and return the result. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00208">egs_functions.cpp:208</a></div></div>
+<div class="ttc" id="group__egspp__main_html_gaf423b31abed9cd8dc92a5668a56935ab"><div class="ttname"><a href="group__egspp__main.html#gaf423b31abed9cd8dc92a5668a56935ab">egsStripPath</a></div><div class="ttdeci">string egsStripPath(const string &amp;aname)</div><div class="ttdoc">Strip the path from a file name and return the result. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00281">egs_functions.cpp:281</a></div></div>
 <div class="ttc" id="group__egspp__main_html_ga70ad7f086f097e38f94a573f49a4dd1f"><div class="ttname"><a href="group__egspp__main.html#ga70ad7f086f097e38f94a573f49a4dd1f">egsGetI64</a></div><div class="ttdeci">bool EGS_EXPORT egsGetI64(istream &amp;data, EGS_I64 &amp;n)</div><div class="ttdoc">Reads a 64 bit integer from the stream data and assigns it to n. Returns true on success, false on failure. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00068">egs_functions.cpp:68</a></div></div>
-<div class="ttc" id="group__egspp__main_html_ga217f838d54db1ab1d1bf028b8060dced"><div class="ttname"><a href="group__egspp__main.html#ga217f838d54db1ab1d1bf028b8060dced">egsGetPid</a></div><div class="ttdeci">int egsGetPid()</div><div class="ttdoc">Get the process id. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00262">egs_functions.cpp:262</a></div></div>
-<div class="ttc" id="group__egspp__main_html_ga5a3ed0d674b7aa53128d25b780a45a29"><div class="ttname"><a href="group__egspp__main.html#ga5a3ed0d674b7aa53128d25b780a45a29">egsIsAbsolutePath</a></div><div class="ttdeci">bool egsIsAbsolutePath(const string &amp;path)</div><div class="ttdoc">Does the string path represent an absolute path name? </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00307">egs_functions.cpp:307</a></div></div>
+<div class="ttc" id="group__egspp__main_html_ga217f838d54db1ab1d1bf028b8060dced"><div class="ttname"><a href="group__egspp__main.html#ga217f838d54db1ab1d1bf028b8060dced">egsGetPid</a></div><div class="ttdeci">int egsGetPid()</div><div class="ttdoc">Get the process id. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00335">egs_functions.cpp:335</a></div></div>
+<div class="ttc" id="group__egspp__main_html_ga5a3ed0d674b7aa53128d25b780a45a29"><div class="ttname"><a href="group__egspp__main.html#ga5a3ed0d674b7aa53128d25b780a45a29">egsIsAbsolutePath</a></div><div class="ttdeci">bool egsIsAbsolutePath(const string &amp;path)</div><div class="ttdoc">Does the string path represent an absolute path name? </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00380">egs_functions.cpp:380</a></div></div>
 <div class="ttc" id="group__egspp__main_html_ga02ff22ad01a5d7f52db6fea9c4615286"><div class="ttname"><a href="group__egspp__main.html#ga02ff22ad01a5d7f52db6fea9c4615286">egsStoreI64</a></div><div class="ttdeci">bool EGS_EXPORT egsStoreI64(ostream &amp;data, EGS_I64 n)</div><div class="ttdoc">Writes the 64 bit integer n to the output stream data and returns true on success, false on failure. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00057">egs_functions.cpp:57</a></div></div>
 <div class="ttc" id="group__egspp__main_html_gac6ca173a4a5cc865f8506000e3a21cc8"><div class="ttname"><a href="group__egspp__main.html#gac6ca173a4a5cc865f8506000e3a21cc8">egsJoinPath</a></div><div class="ttdeci">string egsJoinPath(const string &amp;first, const string &amp;second)</div><div class="ttdoc">Join two path variables (or a path and a file name) using the platform specific directory separator a...</div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00194">egs_functions.cpp:194</a></div></div>
 <div class="ttc" id="group__egspp__main_html_ga5987194374e46ed8353e6007af189a26"><div class="ttname"><a href="group__egspp__main.html#ga5987194374e46ed8353e6007af189a26">egsSetInfoFunction</a></div><div class="ttdeci">EGS_InfoFunction egsSetInfoFunction(EGS_InfoType t, EGS_InfoFunction func)</div><div class="ttdoc">Set a function to be used for outputing information, warning messages or reporting fatal errors...</div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00138">egs_functions.cpp:138</a></div></div>
@@ -451,15 +524,16 @@
 <div class="ttc" id="group__egspp__main_html_gacdcacd7840a224276c43c0e66d852952"><div class="ttname"><a href="group__egspp__main.html#gacdcacd7840a224276c43c0e66d852952">egsSwapBytes</a></div><div class="ttdeci">void egsSwapBytes(int *n)</div><div class="ttdoc">Swap the bytes of 32 bit integers. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00180">egs_functions.cpp:180</a></div></div>
 <div class="ttc" id="classEGS__Application_html_a4e6bdc981453861541b4c757f53d8c23"><div class="ttname"><a href="classEGS__Application.html#a4e6bdc981453861541b4c757f53d8c23">EGS_Application::appFatal</a></div><div class="ttdeci">virtual void appFatal(const char *)</div><div class="ttdoc">Write a warning message and exit. </div><div class="ttdef"><b>Definition:</b> <a href="egs__application_8cpp_source.html#l01036">egs_application.cpp:1036</a></div></div>
 <div class="ttc" id="group__egspp__main_html_ga4454fdf3403e87c098cd55f60dedbe56"><div class="ttname"><a href="group__egspp__main.html#ga4454fdf3403e87c098cd55f60dedbe56">egsFatal</a></div><div class="ttdeci">EGS_InfoFunction EGS_EXPORT egsFatal</div><div class="ttdoc">Always use this function for reporting fatal errors. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00136">egs_functions.cpp:136</a></div></div>
+<div class="ttc" id="group__egspp__main_html_ga63fd04e4564a563f2f099c3eae6426f5"><div class="ttname"><a href="group__egspp__main.html#ga63fd04e4564a563f2f099c3eae6426f5">egsExpandPath</a></div><div class="ttdeci">string egsExpandPath(const string &amp;aname)</div><div class="ttdoc">Expands first environment variable found in a file name. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00216">egs_functions.cpp:216</a></div></div>
 <div class="ttc" id="group__egspp__main_html_ga38c38ac950788399c630481c2b3722f2"><div class="ttname"><a href="group__egspp__main.html#ga38c38ac950788399c630481c2b3722f2">egsInformation</a></div><div class="ttdeci">EGS_InfoFunction EGS_EXPORT egsInformation</div><div class="ttdoc">Always use this function for reporting the progress of a simulation and any other type of information...</div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00134">egs_functions.cpp:134</a></div></div>
-<div class="ttc" id="group__egspp__main_html_ga2d633f9f88ad2a7a0cc2efd660885401"><div class="ttname"><a href="group__egspp__main.html#ga2d633f9f88ad2a7a0cc2efd660885401">egsGetEndian</a></div><div class="ttdeci">int egsGetEndian()</div><div class="ttdoc">Get the endianess of the machine. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00295">egs_functions.cpp:295</a></div></div>
+<div class="ttc" id="group__egspp__main_html_ga2d633f9f88ad2a7a0cc2efd660885401"><div class="ttname"><a href="group__egspp__main.html#ga2d633f9f88ad2a7a0cc2efd660885401">egsGetEndian</a></div><div class="ttdeci">int egsGetEndian()</div><div class="ttdoc">Get the endianess of the machine. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00368">egs_functions.cpp:368</a></div></div>
 <div class="ttc" id="classEGS__Application_html_a0bacaf36aa14a5851c5dd6f8efd679ee"><div class="ttname"><a href="classEGS__Application.html#a0bacaf36aa14a5851c5dd6f8efd679ee">EGS_Application::activeApplication</a></div><div class="ttdeci">static EGS_Application * activeApplication()</div><div class="ttdoc">Get the active application. </div><div class="ttdef"><b>Definition:</b> <a href="egs__application_8cpp_source.html#l00100">egs_application.cpp:100</a></div></div>
-<div class="ttc" id="group__egspp__main_html_ga93d32bad171fae0575c0ea56cbdd4290"><div class="ttname"><a href="group__egspp__main.html#ga93d32bad171fae0575c0ea56cbdd4290">egsSimplifyCVSKey</a></div><div class="ttdeci">string egsSimplifyCVSKey(const string &amp;key)</div><div class="ttdoc">Remove the $&amp;#39;s from a CVS key. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00270">egs_functions.cpp:270</a></div></div>
+<div class="ttc" id="group__egspp__main_html_ga93d32bad171fae0575c0ea56cbdd4290"><div class="ttname"><a href="group__egspp__main.html#ga93d32bad171fae0575c0ea56cbdd4290">egsSimplifyCVSKey</a></div><div class="ttdeci">string egsSimplifyCVSKey(const string &amp;key)</div><div class="ttdoc">Remove the $&amp;#39;s from a CVS key. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00343">egs_functions.cpp:343</a></div></div>
 <div class="ttc" id="classEGS__Application_html_ab5b299d7edb8aa5f368dccef4e51f03e"><div class="ttname"><a href="classEGS__Application.html#ab5b299d7edb8aa5f368dccef4e51f03e">EGS_Application::appWarning</a></div><div class="ttdeci">virtual void appWarning(const char *)</div><div class="ttdoc">Write a warning message. </div><div class="ttdef"><b>Definition:</b> <a href="egs__application_8cpp_source.html#l01028">egs_application.cpp:1028</a></div></div>
 <div class="ttc" id="egs__functions_8h_html_a31fc4c64ec2550c83a69809e17669696"><div class="ttname"><a href="egs__functions_8h.html#a31fc4c64ec2550c83a69809e17669696">EGS_InfoFunction</a></div><div class="ttdeci">void(* EGS_InfoFunction)(const char *,...)</div><div class="ttdoc">Defines a function printf-like prototype for functions to be used to report info, warnings...</div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8h_source.html#l00101">egs_functions.h:101</a></div></div>
 <div class="ttc" id="egs__application_8h_html"><div class="ttname"><a href="egs__application_8h.html">egs_application.h</a></div><div class="ttdoc">EGS_Application class header file. </div></div>
 <div class="ttc" id="classEGS__Application_html"><div class="ttname"><a href="classEGS__Application.html">EGS_Application</a></div><div class="ttdoc">Base class for advanced EGSnrc C++ applications. </div><div class="ttdef"><b>Definition:</b> <a href="egs__application_8h_source.html#l00265">egs_application.h:265</a></div></div>
-<div class="ttc" id="group__egspp__main_html_ga19337ca142f9fddc4f274158b52649a6"><div class="ttname"><a href="group__egspp__main.html#ga19337ca142f9fddc4f274158b52649a6">egsHostName</a></div><div class="ttdeci">string egsHostName()</div><div class="ttdoc">Get the name of the host the program is running on. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00235">egs_functions.cpp:235</a></div></div>
+<div class="ttc" id="group__egspp__main_html_ga19337ca142f9fddc4f274158b52649a6"><div class="ttname"><a href="group__egspp__main.html#ga19337ca142f9fddc4f274158b52649a6">egsHostName</a></div><div class="ttdeci">string egsHostName()</div><div class="ttdoc">Get the name of the host the program is running on. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00308">egs_functions.cpp:308</a></div></div>
 <div class="ttc" id="group__egspp__main_html_gadf4109d942f372e48e1dea86c0ca62cb"><div class="ttname"><a href="group__egspp__main.html#gadf4109d942f372e48e1dea86c0ca62cb">egsWarning</a></div><div class="ttdeci">EGS_InfoFunction EGS_EXPORT egsWarning</div><div class="ttdoc">Always use this function for reporting warnings. </div><div class="ttdef"><b>Definition:</b> <a href="egs__functions_8cpp_source.html#l00135">egs_functions.cpp:135</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.11-->
